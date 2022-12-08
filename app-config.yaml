@@ -28,8 +28,25 @@ backend:
   # This is for local development only, it is not recommended to use this in production
   # The production database configuration is stored in app-config.production.yaml
   database:
-    client: better-sqlite3
-    connection: ':memory:'
+    # client: better-sqlite3
+    # connection: ':memory:'
+    # config options: https://node-postgres.com/api/client
+
+    client: pg
+    connection:
+      host: localhost
+      port: 5432
+      user: postgres
+      password: secret
+    plugin:
+      auth:
+        connection:
+          database: pg_auth_set_by_user
+
+    # https://node-postgres.com/features/ssl
+    #ssl: require # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
+    #ca: # if you have a CA file and want to verify it you can uncomment this section
+    #$file: <file-path>/ca/server.crt
   cache:
     store: memory
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
@@ -63,7 +80,12 @@ techdocs:
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  providers: {}
+  environment: development
+  providers:
+    github:
+      development:
+        clientId: Iv1.074925c2a0c19097
+        clientSecret: 0d0700f769283202634f370e85570012bbed5e2e
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
