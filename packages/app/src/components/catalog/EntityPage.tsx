@@ -1,5 +1,19 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { Button, Grid } from '@material-ui/core';
+import {
+  isGitlabAvailable,
+  EntityGitlabContent,
+} from '@immobiliarelabs/backstage-plugin-gitlab';
+
+import {
+  EntityGitlabLanguageCard,
+  EntityGitlabContributorsCard,
+  EntityGitlabMergeRequestsTable,
+  EntityGitlabMergeRequestStatsCard,
+  EntityGitlabPipelinesTable,
+} from '@immobiliarelabs/backstage-plugin-gitlab';
+
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
@@ -142,6 +156,10 @@ const serviceEntityPage = (
       {overviewContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route if={isGitlabAvailable} path="/gitlab" title="Gitlab">
+      <EntityGitlabContent />
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
@@ -189,6 +207,10 @@ const websiteEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route if={isGitlabAvailable} path="/gitlab" title="Gitlab">
+      <EntityGitlabContent />
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
@@ -233,6 +255,17 @@ const componentPage = (
 
     <EntitySwitch.Case if={isComponentType('website')}>
       {websiteEntityPage}
+    </EntitySwitch.Case>
+
+    {/* ternyata harus naro disini kalo  */}
+    <EntitySwitch.Case if={isGitlabAvailable}>
+      <Grid item md={6}>
+        <EntityGitlabContributorsCard />
+        <EntityGitlabLanguageCard />
+        <EntityGitlabMergeRequestStatsCard />
+        <EntityGitlabPipelinesTable />
+        <EntityGitlabMergeRequestsTable />
+      </Grid>
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
@@ -375,15 +408,34 @@ const domainPage = (
   </EntityLayout>
 );
 
-export const entityPage = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isKind('component')} children={componentPage} />
-    <EntitySwitch.Case if={isKind('api')} children={apiPage} />
-    <EntitySwitch.Case if={isKind('group')} children={groupPage} />
-    <EntitySwitch.Case if={isKind('user')} children={userPage} />
-    <EntitySwitch.Case if={isKind('system')} children={systemPage} />
-    <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
+// export const entityPage = (
+//   <EntitySwitch>
+//     <EntitySwitch.Case if={isKind('component')} children={componentPage} />
+//     <EntitySwitch.Case if={isKind('api')} children={apiPage} />
+//     <EntitySwitch.Case if={isKind('group')} children={groupPage} />
+//     <EntitySwitch.Case if={isKind('user')} children={userPage} />
+//     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
+//     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
 
-    <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
-  </EntitySwitch>
-);
+//     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
+//   </EntitySwitch>
+// );
+
+// import React from 'react'
+
+export const entityPage = () => {
+  console.log(isKind('component'));
+
+  return (
+    <EntitySwitch>
+      <EntitySwitch.Case if={isKind('component')} children={componentPage} />
+      <EntitySwitch.Case if={isKind('api')} children={apiPage} />
+      <EntitySwitch.Case if={isKind('group')} children={groupPage} />
+      <EntitySwitch.Case if={isKind('user')} children={userPage} />
+      <EntitySwitch.Case if={isKind('system')} children={systemPage} />
+      <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
+
+      <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
+    </EntitySwitch>
+  );
+};

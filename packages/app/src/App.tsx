@@ -64,7 +64,7 @@ const routes = (
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
     >
-      {entityPage}
+      {entityPage()}
     </Route>
     <Route path="/docs" element={<TechDocsIndexPage />} />
     <Route
