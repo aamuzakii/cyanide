@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-console */
 import React from 'react';
 import { Navigate, Route } from 'react-router';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
@@ -33,6 +35,9 @@ import { FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+import { GcpProjects, GcpProjectsPage } from './plugins';
+
+// GcpProjects.routes.root;
 
 const app = createApp({
   apis,
@@ -94,17 +99,20 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route path="/gcp-projects" element={<GcpProjectsPage />} />
   </FlatRoutes>
 );
 
-const App = () => (
-  <AppProvider>
-    <AlertDisplay />
-    <OAuthRequestDialog />
-    <AppRouter>
-      <Root>{routes}</Root>
-    </AppRouter>
-  </AppProvider>
-);
+const App = () => {
+  return (
+    <AppProvider>
+      <AlertDisplay />
+      <OAuthRequestDialog />
+      <AppRouter>
+        <Root>{routes}</Root>
+      </AppRouter>
+    </AppProvider>
+  );
+};
 
 export default App;

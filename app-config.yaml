@@ -6,6 +6,7 @@ organization:
   name: My Company
 
 backend:
+  GOOGLE_APPLICATION_CREDENTIALS: './sekolah-sunnah-250d4658bbc2.json'
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/tutorials/backend-to-backend-auth for
   # information on the format
@@ -85,6 +86,10 @@ auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
   providers:
+    google:
+      development:
+        clientId: ${APP_CONFIG_CLIENT_ID}
+        clientSecret: ${APP_CONFIG_CLIENT_SECRET}
     github:
       development:
         clientId: Iv1.074925c2a0c19097
