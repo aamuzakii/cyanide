@@ -63,12 +63,21 @@ integrations:
       #   token: ${GHE_TOKEN}
   gitlab:
     - host: gitlab.com
-      token: glpat-s7npzbRPyiRkx4PykGGi
+      # token: glpat-s7npzbRPyiRkx4PykGGi
+      token: glpat-ottq9Smg8qYxKzmTfjjR
 
 proxy:
   '/test':
     target: 'https://example.com'
     changeOrigin: true
+  '/gitlabci':
+    target: 'https://gitlab.com/api/v4'
+    allowedMethods: ['GET']
+    headers:
+      PRIVATE-TOKEN: 'glpat-ottq9Smg8qYxKzmTfjjR'
+
+gitlab:
+  proxyPath: /gitlabci
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
